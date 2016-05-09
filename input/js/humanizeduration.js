@@ -404,7 +404,7 @@
 
   function render (count, type, dictionary, options) {
     var decimal
-    if (options.decimal === void 0) {
+    if (options.decimal === 0) {
       decimal = dictionary.decimal
     } else {
       decimal = options.decimal

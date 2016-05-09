@@ -7,7 +7,6 @@ import jdk.nashorn.internal.runtime.Context;
 import jdk.nashorn.internal.runtime.ErrorManager;
 import jdk.nashorn.internal.runtime.Source;
 import jdk.nashorn.internal.runtime.options.Options;
-import sun.misc.IOUtils;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -53,14 +52,13 @@ public class Main {
     private static void addFunction(Node statement, String code) throws IOException {
         CodePlacement placement = new CodePlacement(statement.getStart(), statement.getFinish());
         String functionCode = code.substring(placement.startChar, placement.endChar);
-        String functionLiteral = "function x()";
+        String functionLiteral = "function x_y_z_makota12()";
         JavaScriptCompressor compressor = new JavaScriptCompressor(new StringReader(functionLiteral + functionCode), new SimpleErrorReporter());
-        ByteArrayOutputStream out = new ByteArrayOutputStream();
-        compressor.compress(new OutputStreamWriter(out), 200, false, false, false, false);
-        out.close();
-        String minimified = new String(out.toByteArray());
+        Writer writer = new StringWriter();
+        compressor.compress(writer, 200, true, false, false, false);
+        String minimified = writer.toString().substring(functionLiteral.length());
 
-        functions.put(placement, new FunctionBody(functionCode, minimified.substring(functionLiteral.length())));
+        functions.put(placement, new FunctionBody(functionCode, minimified));
     }
 
     public static void main(String... args) throws IOException {
