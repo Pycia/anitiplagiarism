@@ -1,4 +1,4 @@
-package pl.edu.agh.nstawowy.antiplagiarism;
+package pl.edu.agh.nstawowy.antiplagiarism.js;
 
 public class CodePlacement {
     public final int startChar, endChar;

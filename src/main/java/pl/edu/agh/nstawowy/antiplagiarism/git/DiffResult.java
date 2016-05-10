@@ -15,4 +15,14 @@ public class DiffResult {
         this.differentCharacters = differentCharacters;
         this.differentLines = differentLines;
     }
+
+    @Override
+    public String toString() {
+        return "DiffResult{" +
+                "commonCharacters=" + commonCharacters +
+                ", commonLines=" + commonLines +
+                ", differentCharacters=" + differentCharacters +
+                ", differentLines=" + differentLines +
+                '}';
+    }
 }

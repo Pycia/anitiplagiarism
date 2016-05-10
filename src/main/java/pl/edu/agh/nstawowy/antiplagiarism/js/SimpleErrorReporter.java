@@ -1,4 +1,4 @@
-package pl.edu.agh.nstawowy.antiplagiarism;
+package pl.edu.agh.nstawowy.antiplagiarism.js;
 
 
 import org.mozilla.javascript.ErrorReporter;

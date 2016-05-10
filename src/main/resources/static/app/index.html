@@ -1,0 +1,27 @@
+<html ng-app="antiplag">
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
+    <script src="js.js"></script>
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.0.4/css/bootstrap-combined.min.css">
+</head>
+<body>
+<h2>Todo</h2>
+<div ng-controller="jsController as js">
+    <span>{{todoList.remaining()}} of {{todoList.todos.length}} remaining</span>
+    [ <a href="" ng-click="js.archive()">archive</a> ]
+    <ul class="unstyled">
+        <li ng-repeat="todo in js.todos">
+            <label class="checkbox">
+                <input type="checkbox" ng-model="todo.done">
+                <span class="done-{{todo.done}}">{{todo.text}}</span>
+            </label>
+        </li>
+    </ul>
+    <form ng-submit="js.addTodo()">
+        <input type="text" ng-model="todoList.todoText"  size="30"
+               placeholder="add new todo here">
+        <input class="btn-primary" type="submit" value="add">
+    </form>
+</div>
+</body>
+</html>
