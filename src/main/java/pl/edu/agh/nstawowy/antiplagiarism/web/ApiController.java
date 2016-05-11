@@ -3,10 +3,7 @@ package pl.edu.agh.nstawowy.antiplagiarism.web;
 import org.apache.commons.io.FileUtils;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -37,6 +34,14 @@ public class ApiController {
     String uploadJsFile(@RequestBody UploadedFile uploadedFile) throws IOException {
         File file = JS_PATH.resolve(Paths.get(uploadedFile.getFilename())).toFile();
         FileUtils.writeStringToFile(file, uploadedFile.getContent());
+        return "{}";
+    }
+
+    @RequestMapping(value = "/js/library/delete")
+    @ResponseBody
+    String deleteJsFile(@RequestParam(name = "filename") String filename) throws IOException {
+        File file = JS_PATH.resolve(filename).toFile();
+        file.delete();
         return "{}";
     }
 }

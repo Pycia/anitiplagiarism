@@ -24,4 +24,10 @@ angular.module('antiplag', [])
         }
         r.readAsBinaryString(f);
       }
+
+  $scope.removeFile = function(filename) {
+    $http.get("/api/js/library/delete?filename="+filename).then(function(response){
+        $window.location.reload();
+    })
+  }
 });

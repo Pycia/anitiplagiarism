@@ -7,6 +7,13 @@
 <body>
 
 <div ng-controller="jsController as js">
+    <h2>Paste your code here to check if it is a plagiarism</h2>
+    <textarea rows="10" cols="150" style="width:640px;">
+
+    </textarea><br>
+    <button type="button" class="btn btn-primary" ng-click="go()">Go</button>
+
+    <hr>
     <h2>Library</h2>
     <form>
         <input id="addFile" type="file" class="file-loading">
@@ -16,14 +23,14 @@
     <table class="table table-striped" style="width:400px">
         <thead>
             <tr>
-                <td>Filename</td>
-                <td>x</td>
+                <th>Filename</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
             <tr ng-repeat="filename in js.library.files">
                 <td>{{filename}}</td>
-                <td>x</td>
+                <td><button type="button" class="btn btn-danger" ng-click="removeFile(filename)">Delete</button>  </td>
             </tr>
         </tbody>
     </table>
