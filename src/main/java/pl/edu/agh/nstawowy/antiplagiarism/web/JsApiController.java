@@ -19,6 +19,8 @@ import java.util.List;
 public class JsApiController {
     private static final Path JS_PATH = Paths.get("input", "js");
 
+    private String compareContent;
+
 
     @RequestMapping("/library/list")
     @ResponseBody
@@ -40,11 +42,10 @@ public class JsApiController {
         return "{}";
     }
 
-    @RequestMapping("/findPlagiarism")
+    @RequestMapping(value = "/findPlagiarism", method = RequestMethod.POST)
     @ResponseBody
-    public List<ProbablePlagiarism> findPlagiarism(@RequestBody StringHolder content) {
-        return Lists.newArrayList(
-                new ProbablePlagiarism("aaa.js", 120, 450, 3),
-                new ProbablePlagiarism("bcdef.js", 5, 700, 0));
+    public String findPlagiarism(@RequestBody StringHolder content) {
+        compareContent = content.getValue();
+        return "{}";
     }
 }

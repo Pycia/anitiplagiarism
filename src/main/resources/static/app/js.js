@@ -30,4 +30,12 @@ angular.module('antiplag', [])
         $window.location.reload();
     })
   }
+
+  $scope.go = function() {
+      $http.post("/api/js/findPlagiarism", {
+        value: document.getElementById("code-input").value
+      }).then(function(response){
+          $window.location.href = '/app/cmp.html';
+      })
+  }
 });
