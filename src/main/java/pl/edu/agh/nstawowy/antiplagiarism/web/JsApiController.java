@@ -22,21 +22,19 @@ public class JsApiController {
 
     @RequestMapping("/library/list")
     @ResponseBody
-    String[] listJsLibrary() {
+    public String[] listJsLibrary() {
         return JS_PATH.toFile().list((dir, name) -> name.endsWith(".js"));
     }
 
     @RequestMapping(value = "/library/upload", method = RequestMethod.POST)
-    @ResponseBody
-    String uploadJsFile(@RequestBody UploadedFile uploadedFile) throws IOException {
+    public String uploadJsFile(@RequestBody UploadedFile uploadedFile) throws IOException {
         File file = JS_PATH.resolve(Paths.get(uploadedFile.getFilename())).toFile();
         FileUtils.writeStringToFile(file, uploadedFile.getContent());
         return "{}";
     }
 
     @RequestMapping("/library/delete")
-    @ResponseBody
-    String deleteJsFile(@RequestParam(name = "filename") String filename) throws IOException {
+    public String deleteJsFile(@RequestParam(name = "filename") String filename) throws IOException {
         File file = JS_PATH.resolve(filename).toFile();
         file.delete();
         return "{}";
@@ -44,7 +42,7 @@ public class JsApiController {
 
     @RequestMapping("/findPlagiarism")
     @ResponseBody
-    List<ProbablePlagiarism> findPlagiarism(@RequestBody StringHolder content) {
+    public List<ProbablePlagiarism> findPlagiarism(@RequestBody StringHolder content) {
         return Lists.newArrayList(
                 new ProbablePlagiarism("aaa.js", 120, 450, 3),
                 new ProbablePlagiarism("bcdef.js", 5, 700, 0));
