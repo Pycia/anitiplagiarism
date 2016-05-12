@@ -1,14 +1,9 @@
 package pl.edu.agh.nstawowy.antiplagiarism;
 
 import org.springframework.boot.SpringApplication;
-import pl.edu.agh.nstawowy.antiplagiarism.git.DiffResult;
-import pl.edu.agh.nstawowy.antiplagiarism.git.GitConnector;
-import pl.edu.agh.nstawowy.antiplagiarism.js.JSParser;
-import pl.edu.agh.nstawowy.antiplagiarism.web.ApiController;
 import pl.edu.agh.nstawowy.antiplagiarism.web.SpringConfig;
 
 import java.io.IOException;
-import java.nio.file.Paths;
 
 public class Main {
 
