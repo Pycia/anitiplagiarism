@@ -2,42 +2,44 @@
 <head>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
     <script src="js.js"></script>
-    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.0.4/css/bootstrap-combined.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.1.1/normalize.min.css">
 </head>
 <body>
 
-<div ng-controller="jsController as js" style="margin:8px;">
-    <h2>Paste your code here to check if it is a plagiarism</h2>
-    <textarea id="code-input" rows="10" cols="150" style="width:640px;">
+<div ng-controller="jsController as js">
+    <div class="container">
+        <h2>Paste your code here to check if it is a plagiarism</h2>
+        <textarea id="code-input" rows="10" cols="150" style="width:640px;">
 
-    </textarea><br>
-    <button type="button" class="btn btn-primary" ng-click="go()">Go</button>
+        </textarea><br>
+        <button type="button" class="btn btn-primary" ng-click="go()">Go</button>
 
-    <hr>
-    <h2>Library</h2>
+        <hr>
+        <h2>Library</h2>
 
-    <table class="table table-striped" style="width:600px">
-        <thead>
-            <tr>
-                <th>Filename</th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr ng-repeat="filename in js.library.files">
-                <td>{{filename}}</td>
-                <td style="text-align: right;">
-                    <button type="button" class="btn btn-danger" ng-click="removeFile(filename)">Delete</button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+        <table class="table table-striped" style="width:600px">
+            <thead>
+                <tr>
+                    <th>Filename</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="filename in js.library.files">
+                    <td>{{filename}}</td>
+                    <td style="text-align: right;">
+                        <button type="button" class="btn btn-danger" ng-click="removeFile(filename)">Delete</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
 
-    <form>
-        <input id="addFile" type="file" class="file-loading" style="width:508px">
-        <button type="button" class="btn btn-primary" ng-click="addFile()" style="width:80px;">Add file</button>
-    </form>
-
+        <form>
+            <input id="addFile" type="file" class="file-loading" style="width:508px">
+            <button type="button" class="btn btn-primary" ng-click="addFile()" style="width:80px;">Add file</button>
+        </form>
+    </div>
 </div>
 </body>
 </html>

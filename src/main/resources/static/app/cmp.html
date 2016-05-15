@@ -1,41 +1,30 @@
 <html ng-app="antiplag">
 <head>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
     <link rel="stylesheet" href="//cdn.jsdelivr.net/highlight.js/9.3.0/styles/default.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/4.1.1/normalize.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
     <script src="//cdn.jsdelivr.net/highlight.js/9.3.0/highlight.min.js"></script>
-    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.0.4/css/bootstrap-combined.min.css">
+    <script src="cmp.js"></script>
 </head>
 <body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h2>Pasted code:</h2>
+                <textarea></textarea>
+            </div>
+            <div class="col-md-6">
+                <h2>Possible plagiat:</h2>
+                <textarea></textarea>
+            </div>
+        </div>
+        <div class="row">
+            <div>
+            <h2>Similar files</h2>
 
-<div ng-controller="cmpController" style="margin:8px;">
-    <h2>Paste your code here to check if it is a plagiarism</h2>
-    <textarea rows="10" cols="150" style="width:640px;">
-
-    </textarea><br>
-    <button type="button" class="btn btn-primary" ng-click="go()">Go</button>
-
-    <hr>
-    <h2>Library</h2>
-    <form>
-        <input id="addFile" type="file" class="file-loading">
-        <button type="button" class="btn btn-primary" ng-click="addFile()">Add file</button>
-    </form>
-
-
-    <table class="table table-striped" style="width:400px">
-        <thead>
-        <tr>
-            <th>Filename</th>
-            <th></th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr ng-repeat="filename in js.library.files">
-            <td>{{filename}}</td>
-            <td><button type="button" class="btn btn-danger" ng-click="removeFile(filename)">Delete</button>  </td>
-        </tr>
-        </tbody>
-    </table>
+        </div>
+    </div>
 </div>
 </body>
 </html>
