@@ -1,14 +1,17 @@
 package pl.edu.agh.nstawowy.antiplagiarism.web;
 
 import com.google.common.collect.Lists;
+import com.google.common.io.Files;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
+import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
@@ -45,18 +48,43 @@ public class JsApiController {
     @RequestMapping(value = "/findPlagiarism", method = RequestMethod.POST)
     @ResponseBody
     public String findPlagiarism(@RequestBody StringHolder content) {
-        compareContent = StringEscapeUtils.escapeEcmaScript(content.getValue());
+        compareContent = content.getValue();
         return "{}";
     }
 
     @RequestMapping("/pastedContent")
     @ResponseBody
     public String pastedCode() throws IOException {
-        return "{\"code\":\"" +compareContent.replaceAll("\\n","\\n").replaceAll("\\\\'", "\\\\u0027")+"\"}";
+        return "{\"code\":\"" +escapeJs(compareContent)+"\"}";
+    }
+
+    @RequestMapping("/listPlagiarisms")
+    @ResponseBody
+    public List<Plagiarism> listPlagiarisms() throws IOException {
+        return Lists.newArrayList(
+                new Plagiarism("humanizeduration.js" ,13, 3),
+                new Plagiarism("humanizeduration2.js", 1, 6)
+        );
+    }
+
+    @RequestMapping("/library/compare")
+    @ResponseBody
+    public CompareResult compare(@RequestParam(name = "filename") String filename) throws IOException {
+        File file = JS_PATH.resolve(filename).toFile();
+        String source = Files.toString(file, Charset.defaultCharset());
+        return new CompareResult(escapeJs(source));
+    }
+
+    private String escapeJs(String code) {
+        return StringEscapeUtils.escapeEcmaScript(code)
+                .replaceAll("\\n","\\n")
+                .replaceAll("\\\\'", "\\\\u0027");
     }
 
 
-    private String compareContent = StringEscapeUtils.escapeEcmaScript("// HumanizeDuration.js - http://git.io/j0HgmQ\n" +
+
+
+    private String compareContent = "// HumanizeDuration.js - http://git.io/j0HgmQ\n" +
             "\n" +
             "(function() {\n" +
             "\n" +
@@ -424,6 +452,6 @@ public class JsApiController {
             "    this.humanizeDuration = humanizeDuration;\n" +
             "  }\n" +
             "\n" +
-            "})();");
+            "})();";
 
 }
