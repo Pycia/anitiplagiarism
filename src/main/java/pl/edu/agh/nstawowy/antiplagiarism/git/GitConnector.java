@@ -25,6 +25,26 @@ public class GitConnector {
         return new DiffResult(0, 0, 0, 0);
     }
 
+    public int commonLines(File a, File b) throws IOException, InterruptedException {
+        Runtime r = Runtime.getRuntime();
+        Process p = r.exec("git diff " + a.getAbsolutePath() + " " + b.getAbsolutePath());
+        p.waitFor();
+
+        int result = 0;
+
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()))) {
+            String line = "";
+
+            while ((line = reader.readLine()) != null) {
+                if (line.startsWith(" ")) {
+                    result += 1;
+                }
+            }
+        }
+        return result;
+    }
+
+
     private GitConnector() {
 
     }

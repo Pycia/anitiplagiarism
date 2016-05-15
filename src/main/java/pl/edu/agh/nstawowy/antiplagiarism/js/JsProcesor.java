@@ -33,7 +33,7 @@ public class JsProcesor {
         File aFile = File.createTempFile("makota",".js");
         Files.write(source, aFile, Charset.defaultCharset());
 
-        int commonLines = GitConnector.INSTANCE.compare(aFile, bFile).commonLines;
+        int commonLines = GitConnector.INSTANCE.commonLines(aFile, bFile);
 
         return new Plagiarism(bFile.getName(), commonLines, findCopies(aFile, bFile).size());
     }
