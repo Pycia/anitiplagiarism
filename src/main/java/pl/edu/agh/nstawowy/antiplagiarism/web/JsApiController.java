@@ -67,10 +67,11 @@ public class JsApiController {
 
     @RequestMapping("/compare")
     @ResponseBody
-    public CompareResult compare(@RequestParam(name = "filename") String filename) throws IOException {
+    public CompareResult compare(@RequestParam(name = "filename") String filename) throws IOException, InterruptedException {
         File file = JS_PATH.resolve(filename).toFile();
         String source = Files.toString(file, Charset.defaultCharset());
-        return new CompareResult(source);
+
+        return new CompareResult(JsProcesor.INSTANCE.annotate(file, compareContent));
     }
 
     private String escapeJs(String code) {

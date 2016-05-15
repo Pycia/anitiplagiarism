@@ -2,7 +2,7 @@ angular.module('antiplag', [])
 .controller('cmpController', function($http, $scope, $window) {
     $http.get("/api/js/pastedContent")
         .then(function(response) {
-            $('#codeLeft').text(response.data.code);
+            $('#codeLeft').html(response.data.code);
             $('#codeLeft').each(function(i, block) {
                 hljs.highlightBlock(block);
             });

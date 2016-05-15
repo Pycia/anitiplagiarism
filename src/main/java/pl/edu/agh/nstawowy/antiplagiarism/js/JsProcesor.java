@@ -30,7 +30,7 @@ public class JsProcesor {
     }
 
     private Plagiarism compareRoughly(String source, File bFile) throws IOException, InterruptedException {
-        File aFile = File.createTempFile("makota",".js");
+        File aFile = File.createTempFile("antiplagiarism",".js");
         Files.write(source, aFile, Charset.defaultCharset());
 
         int commonLines = GitConnector.INSTANCE.commonLines(aFile, bFile);
@@ -60,5 +60,52 @@ public class JsProcesor {
 
     private JsProcesor() {
 
+    }
+
+    public String annotate(File bfile, String aContent) throws IOException, InterruptedException {
+        File aFile = File.createTempFile("antiplagiarism",".js");
+        Files.write(aContent, aFile, Charset.defaultCharset());
+
+        String bContent = Files.toString(bfile, Charset.defaultCharset());
+
+        List<LineState> states = GitConnector.INSTANCE.annotate(aFile, bfile);
+        List<Copy> copies = findCopies(aFile, bfile);
+        for (Copy copy: copies) {
+            int startLine = countLines(bContent.substring(0, copy.bPlacement.startChar));
+            int endLine = countLines(bContent.substring(0, copy.bPlacement.endChar));
+            for (int i = startLine; i < endLine && i < states.size(); ++i) {
+                states.get(i).setPlagiate(copy.aBody.replaceAll("\\n", "&#10;"));
+            }
+        }
+
+        StringBuilder sb = new StringBuilder();
+
+
+        for (LineState state : states) {
+            if ("old".equals(state.getState())) {
+                sb.append(state.getContent());
+            } else if ("new".equals(state.getState())) {
+                sb.append("<span style=\"background:#ADFF2F\">").append(state.getContent()).append("</span>");
+            } else if ("mod".equals(state.getState())) {
+                sb.append("<span style=\"background:#00BFFF\">").append(state.getContent()).append("</span>");
+            }
+            sb.append("\n");
+
+        }
+
+        return sb.toString();
+    }
+
+    public static int countLines(String str) {
+        if(str == null || str.isEmpty())
+        {
+            return 0;
+        }
+        int lines = 1;
+        int pos = 0;
+        while ((pos = str.indexOf("\n", pos) + 1) != 0) {
+            lines++;
+        }
+        return lines;
     }
 }
