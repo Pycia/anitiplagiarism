@@ -1,4 +1,4 @@
-// HumanizeDuration.js - http://git.io/j0HgmQ
+// HumanizeDuration2.js - http://git.io/j0HgmQ
 
 (function(global) {
   var languages = {

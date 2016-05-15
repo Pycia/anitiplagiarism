@@ -67,12 +67,12 @@ public class JsApiController {
         );
     }
 
-    @RequestMapping("/library/compare")
+    @RequestMapping("/compare")
     @ResponseBody
     public CompareResult compare(@RequestParam(name = "filename") String filename) throws IOException {
         File file = JS_PATH.resolve(filename).toFile();
         String source = Files.toString(file, Charset.defaultCharset());
-        return new CompareResult(escapeJs(source));
+        return new CompareResult(source);
     }
 
     private String escapeJs(String code) {
