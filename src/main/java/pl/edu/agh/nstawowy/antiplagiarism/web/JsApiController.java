@@ -8,6 +8,7 @@ import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import pl.edu.agh.nstawowy.antiplagiarism.js.JsProcesor;
 
 import java.io.File;
 import java.io.IOException;
@@ -60,11 +61,8 @@ public class JsApiController {
 
     @RequestMapping("/listPlagiarisms")
     @ResponseBody
-    public List<Plagiarism> listPlagiarisms() throws IOException {
-        return Lists.newArrayList(
-                new Plagiarism("humanizeduration.js" ,13, 3),
-                new Plagiarism("humanizeduration2.js", 1, 6)
-        );
+    public Plagiarism[] listPlagiarisms() throws IOException, InterruptedException {
+        return JsProcesor.INSTANCE.findPlagiarisms(compareContent);
     }
 
     @RequestMapping("/compare")

@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 public class GitConnector {
+    public static final GitConnector INSTANCE = new GitConnector();
 
     public DiffResult compare(File a, File b) throws IOException, InterruptedException {
         Runtime r = Runtime.getRuntime();
@@ -22,5 +23,9 @@ public class GitConnector {
         }
 
         return new DiffResult(0, 0, 0, 0);
+    }
+
+    private GitConnector() {
+
     }
 }
