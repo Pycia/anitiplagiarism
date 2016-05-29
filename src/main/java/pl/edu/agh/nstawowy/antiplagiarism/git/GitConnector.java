@@ -55,15 +55,18 @@ public class GitConnector {
                     minuses += 1;
                 } else {
                     if (line.startsWith(" ")) {
-                        list.add(new LineState("old", line.substring(1), null));
-                        minuses = 0;
+                        while (minuses > 0) {
+                            list.add(new LineState(LineState.LineCategory.DEL, "", null));
+                            --minuses;
+                        }
+                        list.add(new LineState(LineState.LineCategory.OLD, line.substring(1), null));
                     }
                     if (line.startsWith("+")) {
                         if (minuses > 0) {
                             minuses -= 1;
-                            list.add(new LineState("mod", line.substring(1), null));
+                            list.add(new LineState(LineState.LineCategory.MOD, line.substring(1), null));
                         } else {
-                            list.add(new LineState("new", line.substring(1), null));
+                            list.add(new LineState(LineState.LineCategory.NEW, line.substring(1), null));
                         }
                     }
                 }

@@ -85,12 +85,11 @@ public class JsProcesor {
             if (state.getPlagiate() != null) {
                 sb.append("<span style=\"text-decoration:underline;\">");
             }
-            if ("old".equals(state.getState())) {
-                sb.append(state.getContent());
-            } else if ("new".equals(state.getState())) {
-                sb.append("<span style=\"background:#ADFF2F\">").append(state.getContent()).append("</span>");
-            } else if ("mod".equals(state.getState())) {
-                sb.append("<span style=\"background:#00BFFF\">").append(state.getContent()).append("</span>");
+            switch (state.getCategory()) {
+                case OLD: sb.append(state.getContent()); break;
+                case NEW: sb.append("<span style=\"background:#ADFF2F\">").append(state.getContent()).append("</span>");break;
+                case MOD: sb.append("<span style=\"background:#00BFFF\">").append(state.getContent()).append("</span>");break;
+                case DEL: sb.append("<span style=\"background:#FF6666\">").append("  ").append("</span>");break;
             }
 
             if (state.getPlagiate() != null) {

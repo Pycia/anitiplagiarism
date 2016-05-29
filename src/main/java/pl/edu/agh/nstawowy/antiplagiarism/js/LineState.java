@@ -2,7 +2,10 @@ package pl.edu.agh.nstawowy.antiplagiarism.js;
 
 
 public class LineState {
-    private String state;
+    public enum LineCategory {
+        OLD, NEW, MOD, DEL
+    }
+    private LineCategory state;
     private String content;
     private String plagiate;
 
@@ -14,11 +17,11 @@ public class LineState {
         this.content = content;
     }
 
-    public String getState() {
+    public LineCategory getCategory() {
         return state;
     }
 
-    public void setState(String state) {
+    public void setState(LineCategory state) {
         this.state = state;
     }
 
@@ -33,7 +36,7 @@ public class LineState {
     public LineState() {
     }
 
-    public LineState(String state, String content, String plagiate) {
+    public LineState(LineCategory state, String content, String plagiate) {
         this.state = state;
         this.content = content;
         this.plagiate = plagiate;
