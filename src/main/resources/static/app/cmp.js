@@ -10,7 +10,7 @@ angular.module('antiplag', [])
     $scope.compare = function(filename) {
         $http.get("/api/js/compare?filename="+filename)
             .then(function(response) {
-                $('#codeRight').html(response.data.code);
+                $('#codeRight').html(response.data.code.replace(/&quot12;/g, '&#147;'));
                 $('#codeRight').each(function(i, block) {
                     hljs.highlightBlock(block);
                 });
