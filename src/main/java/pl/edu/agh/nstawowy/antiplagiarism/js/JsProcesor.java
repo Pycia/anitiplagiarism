@@ -96,7 +96,7 @@ public class JsProcesor {
                     originalSb.append(originalLines[l++]);
                     break;
                 case NEW:
-                    copySb.append("<span style=\"background:#ADFF2F; width:100%;\">").append(state.getContent()).append("</span>");
+                    copySb.append("<span style=\"background:#ADFF2F\">").append(state.getContent()).append("</span>");
                     originalSb.append("<span style=\"background:#DDDDDD\">").append("       ").append("</span>");
                     break;
                 case MOD:
