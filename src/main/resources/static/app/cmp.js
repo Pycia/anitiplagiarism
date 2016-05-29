@@ -20,7 +20,6 @@ angular.module('antiplag', [])
                 });;
 
             });
-
     }
 
 });
