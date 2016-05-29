@@ -1,12 +1,5 @@
 angular.module('antiplag', [])
 .controller('cmpController', function($http, $scope, $window) {
-    $http.get("/api/js/pastedContent")
-        .then(function(response) {
-            $('#codeLeft').html(response.data.code);
-            $('#codeLeft').each(function(i, block) {
-                hljs.highlightBlock(block);
-            });
-        });
 
 
     $http.get("/api/js/listPlagiarisms")
@@ -21,7 +14,13 @@ angular.module('antiplag', [])
                 $('#codeRight').each(function(i, block) {
                     hljs.highlightBlock(block);
                 });
+                $('#codeLeft').html(response.data.original);
+                $('#codeLeft').each(function(i, block) {
+                    hljs.highlightBlock(block);
+                });;
+
             });
+
     }
 
 });

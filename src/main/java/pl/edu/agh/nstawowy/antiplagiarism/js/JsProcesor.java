@@ -2,6 +2,7 @@ package pl.edu.agh.nstawowy.antiplagiarism.js;
 
 import com.google.common.io.Files;
 import pl.edu.agh.nstawowy.antiplagiarism.git.GitConnector;
+import pl.edu.agh.nstawowy.antiplagiarism.web.CompareResult;
 import pl.edu.agh.nstawowy.antiplagiarism.web.Plagiarism;
 
 import java.io.File;
@@ -62,14 +63,16 @@ public class JsProcesor {
 
     }
 
-    public String annotate(File bfile, String aContent) throws IOException, InterruptedException {
+    public CompareResult annotate(File bfile, String aContent) throws IOException, InterruptedException {
         File aFile = File.createTempFile("antiplagiarism",".js");
         Files.write(aContent, aFile, Charset.defaultCharset());
 
         String bContent = Files.toString(bfile, Charset.defaultCharset());
 
-        List<LineState> states = GitConnector.INSTANCE.annotate(aFile, bfile);
-        List<Copy> copies = findCopies(aFile, bfile);
+        String[] originalLines = bContent.split("\n");
+
+        List<LineState> states = GitConnector.INSTANCE.annotate(bfile, aFile);
+        List<Copy> copies = findCopies(bfile, aFile);
         for (Copy copy: copies) {
             int startLine = countLines(bContent.substring(0, copy.bPlacement.startChar));
             int endLine = countLines(bContent.substring(0, copy.bPlacement.endChar));
@@ -78,27 +81,44 @@ public class JsProcesor {
             }
         }
 
-        StringBuilder sb = new StringBuilder();
+        StringBuilder originalSb = new StringBuilder();
+        StringBuilder copySb = new StringBuilder();
 
+        int l = 0;
 
         for (LineState state : states) {
             if (state.getPlagiate() != null) {
-                sb.append("<span style=\"text-decoration:underline;\">");
+                copySb.append("<span style=\"text-decoration:underline;\">");
             }
             switch (state.getCategory()) {
-                case OLD: sb.append(state.getContent()); break;
-                case NEW: sb.append("<span style=\"background:#ADFF2F\">").append(state.getContent()).append("</span>");break;
-                case MOD: sb.append("<span style=\"background:#00BFFF\">").append(state.getContent()).append("</span>");break;
-                case DEL: sb.append("<span style=\"background:#FF6666\">").append("  ").append("</span>");break;
+                case OLD:
+                    copySb.append(state.getContent());
+                    originalSb.append(originalLines[l++]);
+                    break;
+                case NEW:
+                    copySb.append("<span style=\"background:#ADFF2F; width:100%;\">").append(state.getContent()).append("</span>");
+                    originalSb.append("<span style=\"background:#DDDDDD\">").append("       ").append("</span>");
+                    break;
+                case MOD:
+                    copySb.append("<span style=\"background:#00BFFF\">").append(state.getContent()).append("</span>");
+                    originalSb.append("<span style=\"background:#00BFFF\">").append(originalLines[l++]).append("</span>");
+                    break;
+                case DEL:
+                    copySb.append("<span style=\"background:#DDDDDD\">").append("       ").append("</span>");
+                    originalSb.append("<span style=\"background:#FF6666\">").append(originalLines[l++]).append("</span>");
+                    break;
             }
+
+            copySb.append("\n");
+            originalSb.append("\n");
+
 
             if (state.getPlagiate() != null) {
-                sb.append("</abbr>");
+                copySb.append("</abbr>");
             }
-            sb.append("\n");
         }
 
-        return sb.toString();
+        return new CompareResult(copySb.toString(), originalSb.toString());
     }
 
     public static int countLines(String str) {
