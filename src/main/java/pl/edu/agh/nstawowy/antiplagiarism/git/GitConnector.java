@@ -1,12 +1,15 @@
 package pl.edu.agh.nstawowy.antiplagiarism.git;
 
 
+import com.google.common.io.Files;
+import pl.edu.agh.nstawowy.antiplagiarism.js.JsProcesor;
 import pl.edu.agh.nstawowy.antiplagiarism.js.LineState;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,15 +23,20 @@ public class GitConnector {
         p.waitFor();
 
         int result = 0;
-
+        boolean anydifference = false;
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()))) {
             String line = "";
 
             while ((line = reader.readLine()) != null) {
                 if (line.startsWith(" ")) {
                     result += 1;
+                } else {
+                    anydifference = true;
                 }
             }
+        }
+        if (!anydifference) {
+            result = JsProcesor.countLines(Files.toString(a, Charset.defaultCharset()));
         }
         return result;
     }
@@ -71,6 +79,14 @@ public class GitConnector {
                 }
             }
         }
+
+        if (list.isEmpty()) {
+
+            for (String line : Files.toString(a, Charset.defaultCharset()).split("\n")) {
+                list.add(new LineState(LineState.LineCategory.OLD, line, null));
+            }
+        }
+
 
         return list;
     }

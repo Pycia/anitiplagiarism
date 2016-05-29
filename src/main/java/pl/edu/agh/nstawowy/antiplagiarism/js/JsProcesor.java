@@ -98,16 +98,16 @@ public class JsProcesor {
                     originalSb.append(originalLines[l++]);
                     break;
                 case NEW:
-                    copySb.append("<span style=\"background:#ADFF2F\">").append(state.getContent()).append("</span>");
+                    copySb.append("<span style=\"background:#cDFF8F\">").append(state.getContent()).append("</span>");
                     originalSb.append("<span style=\"background:#DDDDDD\">").append("       ").append("</span>");
                     break;
                 case MOD:
-                    copySb.append("<span style=\"background:#00BFFF\">").append(state.getContent()).append("</span>");
+                    copySb.append("<span style=\"background:#66CFFF\">").append(state.getContent()).append("</span>");
                     originalSb.append("<span style=\"background:#00BFFF\">").append(originalLines[l++]).append("</span>");
                     break;
                 case DEL:
                     copySb.append("<span style=\"background:#DDDDDD\">").append("       ").append("</span>");
-                    originalSb.append("<span style=\"background:#FF6666\">").append(originalLines[l++]).append("</span>");
+                    originalSb.append("<span style=\"background:#FFAAAA\">").append(originalLines[l++]).append("</span>");
                     break;
             }
 
@@ -118,6 +118,11 @@ public class JsProcesor {
             if (state.getPlagiate() != null) {
                 copySb.append("</span>");
             }
+        }
+
+        while (l < originalLines.length){
+            copySb.append("<span style=\"background:#DDDDDD\">").append("       ").append("</span>\n");
+            originalSb.append("<span style=\"background:#FFAAAA\">").append(originalLines[l++]).append("</span>\n");
         }
 
         return new CompareResult(copySb.toString(), originalSb.toString());
