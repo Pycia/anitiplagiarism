@@ -58,6 +58,7 @@ public class JSParser {
             }
             if (node instanceof CallNode) {
                 findFunctions(list(((CallNode) node).getFunction()), code, result);
+                findFunctions(((CallNode) node).getArgs(), code, result);
             }
             if (node instanceof ObjectNode) {
                 findFunctions(((ObjectNode) node).getElements(), code, result);
