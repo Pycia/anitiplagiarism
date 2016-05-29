@@ -1,6 +1,8 @@
 package pl.edu.agh.nstawowy.antiplagiarism.js;
 
 
+import com.google.common.base.Joiner;
+import com.google.common.collect.Lists;
 import com.yahoo.platform.yui.compressor.JavaScriptCompressor;
 import jdk.nashorn.internal.ir.*;
 import jdk.nashorn.internal.parser.Parser;
@@ -46,7 +48,7 @@ public class JSParser {
     private void findFunctions(List<? extends Node> nodes, String code, Map<CodePlacement, FunctionBody> result) throws IOException {
         for (Node node : nodes) {
             if (node instanceof FunctionNode) {
-                addFunction(node, code, result);
+                addFunction((FunctionNode)node, code, result);
                 findFunctions(((FunctionNode) node).getBody().getStatements(), code, result);
             }
 
@@ -69,14 +71,16 @@ public class JSParser {
         }
     }
 
-    private void addFunction(Node statement, String code, Map<CodePlacement, FunctionBody> result) throws IOException {
+    private void addFunction(FunctionNode statement, String code, Map<CodePlacement, FunctionBody> result) throws IOException {
         CodePlacement placement = new CodePlacement(statement.getStart(), statement.getFinish());
+
         String functionCode = code.substring(placement.startChar, placement.endChar);
-        String functionLiteral = "function x_y_z_makota12()";
-        JavaScriptCompressor compressor = new JavaScriptCompressor(new StringReader(functionLiteral + functionCode), new SimpleErrorReporter());
+        String functionHead = "function (" + Joiner.on(',').join(Lists.transform(statement.getParameters(), IdentNode::getName)) + ')';
+        String theFunction = functionHead + functionCode;
+        JavaScriptCompressor compressor = new JavaScriptCompressor(new StringReader(theFunction), new SimpleErrorReporter());
         Writer writer = new StringWriter();
         compressor.compress(writer, 200, true, false, false, false);
-        String minimified = writer.toString().substring(functionLiteral.length());
+        String minimified = writer.toString();
 
         result.put(placement, new FunctionBody(functionCode, minimified));
     }

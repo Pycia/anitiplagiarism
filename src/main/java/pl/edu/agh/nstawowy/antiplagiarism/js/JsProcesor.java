@@ -74,9 +74,9 @@ public class JsProcesor {
         List<LineState> states = GitConnector.INSTANCE.annotate(bfile, aFile);
         List<Copy> copies = findCopies(bfile, aFile);
         for (Copy copy: copies) {
-            int startLine = countLines(bContent.substring(0, copy.bPlacement.startChar));
-            int endLine = countLines(bContent.substring(0, copy.bPlacement.endChar));
-            for (int i = startLine; i <= endLine && i < states.size(); ++i) {
+            int startLine = countLines(aContent.substring(0, copy.bPlacement.startChar));
+            int endLine = countLines(aContent.substring(0, copy.bPlacement.endChar));
+            for (int i = startLine; i < endLine && i < states.size(); ++i) {
                 states.get(i).setPlagiate(copy.aBody.replaceAll("\\n", "&#10;"));
             }
         }
