@@ -33,6 +33,7 @@ public class JsApiController {
     }
 
     @RequestMapping(value = "/library/upload", method = RequestMethod.POST)
+    @ResponseBody
     public String uploadJsFile(@RequestBody UploadedFile uploadedFile) throws IOException {
         File file = JS_PATH.resolve(Paths.get(uploadedFile.getFilename())).toFile();
         FileUtils.writeStringToFile(file, uploadedFile.getContent());
@@ -40,6 +41,7 @@ public class JsApiController {
     }
 
     @RequestMapping("/library/delete")
+    @ResponseBody
     public String deleteJsFile(@RequestParam(name = "filename") String filename) throws IOException {
         File file = JS_PATH.resolve(filename).toFile();
         file.delete();

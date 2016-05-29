@@ -82,6 +82,9 @@ public class JsProcesor {
 
 
         for (LineState state : states) {
+            if (state.getPlagiate() != null) {
+                sb.append("<span style=\"text-decoration:underline;\">");
+            }
             if ("old".equals(state.getState())) {
                 sb.append(state.getContent());
             } else if ("new".equals(state.getState())) {
@@ -89,8 +92,11 @@ public class JsProcesor {
             } else if ("mod".equals(state.getState())) {
                 sb.append("<span style=\"background:#00BFFF\">").append(state.getContent()).append("</span>");
             }
-            sb.append("\n");
 
+            if (state.getPlagiate() != null) {
+                sb.append("</abbr>");
+            }
+            sb.append("\n");
         }
 
         return sb.toString();

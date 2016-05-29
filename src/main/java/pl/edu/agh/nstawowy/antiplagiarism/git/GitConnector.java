@@ -1,7 +1,6 @@
 package pl.edu.agh.nstawowy.antiplagiarism.git;
 
 
-import pl.edu.agh.nstawowy.antiplagiarism.js.JSParser;
 import pl.edu.agh.nstawowy.antiplagiarism.js.LineState;
 
 import java.io.BufferedReader;
@@ -14,21 +13,6 @@ import java.util.List;
 public class GitConnector {
     public static final GitConnector INSTANCE = new GitConnector();
 
-    public DiffResult compare(File a, File b) throws IOException, InterruptedException {
-        Runtime r = Runtime.getRuntime();
-        Process p = r.exec("git diff " + a.getAbsolutePath() + " " + b.getAbsolutePath());
-        p.waitFor();
-
-        try (BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()))) {
-            String line = "";
-
-            while ((line = reader.readLine()) != null) {
-                System.out.println(line);
-            }
-        }
-
-        return new DiffResult(0, 0, 0, 0);
-    }
 
     public int commonLines(File a, File b) throws IOException, InterruptedException {
         Runtime r = Runtime.getRuntime();
@@ -64,7 +48,7 @@ public class GitConnector {
             String line = "";
 
             while ((line = reader.readLine()) != null) {
-                if (line.startsWith("---") || line.startsWith("+++") || line.endsWith("@@")) {
+                if (line.startsWith("---") || line.startsWith("+++") || line.startsWith("@@")) {
                     continue;
                 }
                 if (line.startsWith("-")) {
