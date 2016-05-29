@@ -76,7 +76,7 @@ public class JsProcesor {
         for (Copy copy: copies) {
             int startLine = countLines(bContent.substring(0, copy.bPlacement.startChar));
             int endLine = countLines(bContent.substring(0, copy.bPlacement.endChar));
-            for (int i = startLine; i < endLine && i < states.size(); ++i) {
+            for (int i = startLine; i <= endLine && i < states.size(); ++i) {
                 states.get(i).setPlagiate(copy.aBody.replaceAll("\\n", "&#10;"));
             }
         }
@@ -114,7 +114,7 @@ public class JsProcesor {
 
 
             if (state.getPlagiate() != null) {
-                copySb.append("</abbr>");
+                copySb.append("</span>");
             }
         }
 
