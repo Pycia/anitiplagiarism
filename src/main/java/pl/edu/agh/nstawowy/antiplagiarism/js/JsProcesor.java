@@ -102,8 +102,8 @@ public class JsProcesor {
                     originalSb.append("<span style=\"background:#DDDDDD\">").append("       ").append("</span>");
                     break;
                 case MOD:
-                    copySb.append("<span style=\"background:#66CFFF\">").append(state.getContent()).append("</span>");
-                    originalSb.append("<span style=\"background:#00BFFF\">").append(originalLines[l++]).append("</span>");
+                    copySb.append("<span style=\"background:#99CFFF\">").append(state.getContent()).append("</span>");
+                    originalSb.append("<span style=\"background:#99CFFF\">").append(originalLines[l++]).append("</span>");
                     break;
                 case DEL:
                     copySb.append("<span style=\"background:#DDDDDD\">").append("       ").append("</span>");
