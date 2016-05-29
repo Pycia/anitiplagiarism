@@ -88,7 +88,9 @@ public class JsProcesor {
 
         for (LineState state : states) {
             if (state.getPlagiate() != null) {
-                copySb.append("<span style=\"text-decoration:underline;\">");
+                copySb.append("<span style=\"text-decoration:underline;\" title=\"")
+                        .append(state.getPlagiate().replaceAll("\"", "&quot12;"))
+                        .append("\">");
             }
             switch (state.getCategory()) {
                 case OLD:

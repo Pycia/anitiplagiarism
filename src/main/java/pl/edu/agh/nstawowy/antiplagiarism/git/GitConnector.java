@@ -25,7 +25,6 @@ public class GitConnector {
             String line = "";
 
             while ((line = reader.readLine()) != null) {
-                System.out.println(line);
                 if (line.startsWith(" ")) {
                     result += 1;
                 }

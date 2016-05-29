@@ -82,7 +82,7 @@ public class JSParser {
         compressor.compress(writer, 200, true, false, false, false);
         String minimified = writer.toString();
 
-        result.put(placement, new FunctionBody(functionCode, minimified));
+        result.put(placement, new FunctionBody(functionHead + ' ' + functionCode, minimified));
     }
 
     private <T> List<T> list(T t) {
